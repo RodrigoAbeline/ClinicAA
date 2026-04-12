@@ -39,6 +39,15 @@ meu-projeto/
 └── README.md                  # ARQUIVO - documentação
 
 
+meu-projeto/
+├── frontend/      # React Web
+├── backend/       # Node.js API
+├── mobile/        # React Native ou Expo
+├── desktop/       # Python + PyWebView
+└── database/      # SQL
+
+
+
 - backend/config/db.js → arquivo que configura a conexão com o banco SQL (MySQL, PostgreSQL, etc.).
 - backend/models/ → define os modelos de dados que vão se conectar às tabelas SQL.
 - database/schema.sql → script para criar as tabelas.
