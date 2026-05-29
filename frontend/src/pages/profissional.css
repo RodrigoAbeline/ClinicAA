@@ -1,3 +1,80 @@
-.titulo{ 
-    color: red;
+.container {
+  background-color: rgba(71, 153, 115, 0.432);
+  display: flex;
+  flex-direction: column;   /* coloca os filhos em coluna */
+  justify-content: center;  /* centraliza verticalmente */      
+  align-items: center;      /* centraliza horizontalmente */
+  gap: 20px;                /* espaço entre os blocos */
+  min-height: 100vh;        /* ocupa altura total da tela */
+  margin: 0;                 /* remove margens extras */
+}
+
+
+
+.areapes {
+  width: 60%;               /* aumenta a área de pesquisa */
+  max-width: 600px;
+  background-color: rgb(135, 125, 192);
+  border: 2px solid black;
+  padding: 15px;
+}
+
+
+.resultados {
+  flex: 2; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.mostrar {
+  border: 1px solid #ccc;
+  padding: 15px;
+  background: #f9f9f9;
+}
+
+.pesquisa{
+    width: 30%;
+    height: 20px;
+    border-radius: 5%;
+}
+
+.resultados{
+  flex: 2; 
+  display: flex;
+  flex-direction: row;   /* coloca os itens lado a lado */
+  gap: 10px;             /* espaço entre os blocos */
+  justify-content: center; /* centraliza horizontalmente */
+}
+.mostrarestagio{
+  flex: 1;               /* cada item ocupa espaço igual */
+  width: 200px;
+  height: 150px;   /* largura mínima para não ficarem muito pequenos */
+  border: 2px solid #2c8f59;
+  padding: 15px;
+  background: #f9f9f9;
+  text-align: center; 
+}
+.mostrarpaciente{
+  flex: 1;               /* cada item ocupa espaço igual */
+  width: 200px;  
+  height: 150px;    /* largura mínima para não ficarem muito pequenos */
+  border: 2px solid #2c8f59;
+  padding: 15px;
+  background: #f9f9f9;
+  text-align: center; 
+}
+.mostrarconsultas{
+  flex: 1;               /* cada item ocupa espaço igual */
+  width: 200px;   
+  height: 150px;   /* largura mínima para não ficarem muito pequenos */
+  border: 2px solid #2c8f59;
+  padding: 15px;
+  background: #f9f9f9;
+  text-align: center; 
+}
+body {
+  margin: 0; /* Remove margens padrão do navegador */
+  font-family: Arial, sans-serif; /* Define uma fonte agradável */
 }
