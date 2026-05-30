@@ -2,37 +2,145 @@ import React, { useState } from 'react';
 import './profissional.css';
 
 export default function Profissional() {
-  const [pesquisa, setPesquisa] = useState('');
 
-  // Função que atualiza o estado quando o usuário digita
-  const handleChange = (e) => {
-    setPesquisa(e.target.value);
-    console.log('Pesquisando:', e.target.value);
+  const [nome, setNome] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [email, setEmail] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [senha, setSenha] = useState('');
+
+  // cálculo correto da idade
+  const calcularIdade = (data) => {
+    const hoje = new Date();
+    const nascimento = new Date(data);
+
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+
+    const mes = hoje.getMonth() - nascimento.getMonth();
+
+    if (
+      mes < 0 ||
+      (mes === 0 && hoje.getDate() < nascimento.getDate())
+    ) {
+      idade--;
+    }
+
+    return idade;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const paciente = {
+      nome_paciente: nome,
+      cpf: cpf,
+      contato_paciente: telefone,
+      idade: calcularIdade(dataNascimento),
+      login_usuario: email,
+      senha_usuario: senha
+    };
+
+    try {
+
+      const response = await fetch('http://localhost:3001/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(paciente)
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      if (response.ok) {
+        alert('Paciente cadastrado com sucesso!');
+
+        // limpa formulário
+        setNome('');
+        setCpf('');
+        setEmail('');
+        setDataNascimento('');
+        setTelefone('');
+        setSenha('');
+      } else {
+        alert('Erro ao cadastrar');
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert('Erro no servidor');
+    }
   };
 
   return (
-    <div className='container'>
-      <div className="areapes">
-        <input
-          className="pesquisa"
-          type="text"
-          placeholder="Pesquisar"
-          value={pesquisa}
-          onChange={handleChange}
-        />
-        <p>
-          <strong>Pesquise</strong><br />
-          O nome do paciente ou estagiário para ver os detalhes
-        </p>
-          <button>Pesquisar</button>
-      </div>
+    <div>
 
-      
-      <div className='resultados'>
-        <div className="mostrarestagio"><p>Estagiario</p><br /><div></div></div>
-        <div className="mostrarpaciente"><p>paciente</p><br /><div> </div></div>
-        <div className="mostrarconsultas"><p>consultas</p><br /><div></div></div>
-      </div>
+      <h2>Cadastro</h2>
+
+      <form onSubmit={handleSubmit}>
+
+        <input
+          type="text"
+          placeholder="Digite o nome"
+          className="nomeinp"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Digite o CPF"
+          className="cpfinp"
+          value={cpf}
+          onChange={(e) => setCpf(e.target.value)}
+          required
+        />
+
+        <input
+          type="email"
+          placeholder="Digite o Email"
+          className="emailinp"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <input
+          type="date"
+          className="datainp"
+          value={dataNascimento}
+          onChange={(e) => setDataNascimento(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Digite o telefone"
+          className="inttell"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+          required
+        />
+
+        <input
+          type="password"
+          placeholder="Digite a senha"
+          className="senhainp"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          required
+        />
+
+        <button type="submit">
+          Cadastrar
+        </button>
+
+      </form>
+
     </div>
   );
 }
