@@ -1,5 +1,5 @@
 .container {
-  background-color: rgba(71, 153, 115, 0.432);
+  background-color: #4799736e;
   display: flex;
   flex-direction: column;   /* coloca os filhos em coluna */
   justify-content: center;  /* centraliza verticalmente */      

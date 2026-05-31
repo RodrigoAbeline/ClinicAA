@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Profissional from './pages/Profissional';
 import Cadastro from './pages/Cadastro';
+import Estagiario from './pages/Estagiario';
 
 
 
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/Profissional" element={<Profissional />} />
         <Route path="/Cadastro" element={<Cadastro />} />
+        <Route path="/Estagiario" element={<Estagiario />} />
       </Routes>
     </Router>
   );

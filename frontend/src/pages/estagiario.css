@@ -1,0 +1,95 @@
+:root {
+  --cor-primaria: #2a9d8f;
+  --cor-secundaria: #264653;
+  --cor-destaque: rgba(135, 125, 192, 0.733);
+  --cor-fundo: #4799736e;
+  --cor-texto: #333;
+  --cor-branco: #fff;
+}
+
+.container-estagiario {
+  background-color: var(--cor-fundo);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: var(--cor-texto);
+}
+
+/* Layout centralizado lado a lado */
+.conteudo-centro {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80%;
+}
+
+/* Área To do */
+.todo-area {
+  flex: 1;
+}
+
+.form-estagiario {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-secundaria);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.form-estagiario input,
+.form-estagiario textarea,
+.form-estagiario button {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  border: 1px solid var(--cor-secundaria);
+}
+
+.form-estagiario button {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.lista-tarefas ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lista-tarefas li {
+  background: var(--cor-destaque);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+/* Área Relatório */
+.relatorio {
+  flex: 1;
+  background: var(--cor-destaque);
+  border: 1px solid var(--cor-secundaria);
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+}
+
+.relatorio textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid var(--cor-secundaria);
+  padding: 10px;
+  resize: none;
+}
+
+.relatorio p {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--cor-texto);
+}
