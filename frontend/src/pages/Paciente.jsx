@@ -1,45 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./paciente.css";
 
-function App() {
-  const [tasks, setTasks] = useState([
-    { text: "Estudar React", done: false },
-    { text: "Praticar CSS", done: false },
-    { text: "Ler um artigo técnico", done: false },
-  ]);
-
-  const toggleTask = (index) => {
-    const updatedTasks = tasks.map((task, i) =>
-      i === index ? { ...task, done: !task.done } : task
-    );
-    setTasks(updatedTasks);
-  };
-
-  return (
-    <div className="app">
-      <h1>Tarefas</h1>
-      <ul>
-        {tasks.map((task, index) => (
-          <li
-            key={index}
-            className={task.done ? "done" : ""}
-            onClick={() => toggleTask(index)}
-          >
-            {task.text}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-import React, { useState, useEffect } from 'react';
-
-export default function Estagiario() {
-  const [titulo, setTitulo] = useState('');
-  const [dataFinal, setDataFinal] = useState('');
+export default function Paciente() {
   const [descricao, setDescricao] = useState('');
-  const [paciente, setPaciente] = useState('');
-  const [estagiario, setEstagiario] = useState('');
+  const [dataFinal, setDataFinal] = useState('');
+  const [idPaciente, setIdPaciente] = useState('');
+  const [idConsulta, setIdConsulta] = useState('');
   const [tarefas, setTarefas] = useState([]);
 
   useEffect(() => {
@@ -50,7 +16,12 @@ export default function Estagiario() {
 
   const handleAddTask = async (e) => {
     e.preventDefault();
-    const novaTarefa = { titulo, dataFinal, descricao, paciente, estagiario };
+    const novaTarefa = {
+      descricao,
+      data_conclusao: dataFinal,
+      id_paciente: idPaciente,
+      id_consulta: idConsulta
+    };
 
     const response = await fetch('http://localhost:3001/todo', {
       method: 'POST',
@@ -61,11 +32,10 @@ export default function Estagiario() {
     const data = await response.json();
     setTarefas([...tarefas, data]);
 
-    setTitulo('');
-    setDataFinal('');
     setDescricao('');
-    setPaciente('');
-    setEstagiario('');
+    setDataFinal('');
+    setIdPaciente('');
+    setIdConsulta('');
   };
 
   return (
@@ -73,11 +43,32 @@ export default function Estagiario() {
       <div className="todo-form">
         <h3>Criar Tarefa (To do)</h3>
         <form onSubmit={handleAddTask}>
-          <input type="text" placeholder="Título" value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
-          <input type="date" value={dataFinal} onChange={(e) => setDataFinal(e.target.value)} required />
-          <textarea placeholder="Descrição da atividade" value={descricao} onChange={(e) => setDescricao(e.target.value)} required />
-          <input type="text" placeholder="Nome do paciente" value={paciente} onChange={(e) => setPaciente(e.target.value)} required />
-          <input type="text" placeholder="Nome do estagiário" value={estagiario} onChange={(e) => setEstagiario(e.target.value)} required />
+          <textarea
+            placeholder="Descrição da atividade"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            required
+          />
+          <input
+            type="date"
+            value={dataFinal}
+            onChange={(e) => setDataFinal(e.target.value)}
+            required
+          />
+          <input
+            type="number"
+            placeholder="ID do paciente"
+            value={idPaciente}
+            onChange={(e) => setIdPaciente(e.target.value)}
+            required
+          />
+          <input
+            type="number"
+            placeholder="ID da consulta"
+            value={idConsulta}
+            onChange={(e) => setIdConsulta(e.target.value)}
+            required
+          />
           <button type="submit">Adicionar Tarefa</button>
         </form>
       </div>
@@ -97,4 +88,3 @@ export default function Estagiario() {
     </div>
   );
 }
-export default App; 
