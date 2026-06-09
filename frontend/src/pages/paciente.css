@@ -1,0 +1,128 @@
+:root {
+  --cor-primaria: #2a9d8f;
+  --cor-secundaria: #264653;
+  --cor-destaque: rgba(135, 125, 192, 0.733);
+  --cor-fundo: #4799736e;
+  --cor-texto: #333;
+  --cor-branco: #fff;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* Container principal */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+/* Bloco de tarefas */
+.lista-tarefas {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-destaque);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.lista-tarefas h3 {
+  color: var(--cor-secundaria);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--cor-primaria);
+  padding-bottom: 0.5rem;
+}
+
+.lista-tarefas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-tarefas li {
+  background: var(--cor-primaria);
+  color: var(--cor-branco);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lista-tarefas li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.lista-tarefas input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Bloco de consultas */
+.proximas-consultas {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-destaque);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.proximas-consultas h3 {
+  color: var(--cor-secundaria);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--cor-primaria);
+  padding-bottom: 0.5rem;
+}
+
+.consulta-campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.consulta-campo label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--cor-secundaria);
+}
+
+.consulta-campo input {
+  padding: 0.7rem;
+  border: 1px solid var(--cor-destaque);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.consulta-campo input:focus {
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 4px var(--cor-primaria);
+}
+
+/* Responsividade */
+@media (min-width: 992px) {
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .lista-tarefas, .proximas-consultas {
+    flex: 1 1 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .lista-tarefas, .proximas-consultas {
+    width: 100%;
+  }
+}

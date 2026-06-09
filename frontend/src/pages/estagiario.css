@@ -7,89 +7,131 @@
   --cor-branco: #fff;
 }
 
-.container-estagiario {
+/* Reset básico */
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
   background-color: var(--cor-fundo);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
   color: var(--cor-texto);
-}
-
-/* Layout centralizado lado a lado */
-.conteudo-centro {
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  align-items: flex-start;
-  width: 80%;
-}
-
-/* Área To do */
-.todo-area {
-  flex: 1;
-}
-
-.form-estagiario {
-  background: var(--cor-branco);
-  border: 1px solid var(--cor-secundaria);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.form-estagiario input,
-.form-estagiario textarea,
-.form-estagiario button {
-  width: 80%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border-radius: 5px;
-  border: 1px solid var(--cor-secundaria);
-}
-
-.form-estagiario button {
-  background-color: var(--cor-primaria);
-  color: var(--cor-branco);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.lista-tarefas ul {
-  list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-.lista-tarefas li {
-  background: var(--cor-destaque);
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 10px;
+/* Container principal */
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--cor-branco);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Área Relatório */
-.relatorio {
-  flex: 1;
-  background: var(--cor-destaque);
-  border: 1px solid var(--cor-secundaria);
-  border-radius: 8px;
-  padding: 30px;
+/* Área de pesquisa */
+.areapes {
+  margin-bottom: 2rem;
   text-align: center;
 }
 
-.relatorio textarea {
+.pesquisa {
   width: 100%;
-  height: 100px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid var(--cor-secundaria);
-  padding: 10px;
-  resize: none;
+  padding: 0.7rem;
+  border: 1px solid var(--cor-destaque);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.relatorio p {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--cor-texto);
+.pesquisa:focus {
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 4px var(--cor-primaria);
+}
+
+.areapes button {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  border: none;
+  padding: 0.8rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.areapes button:hover {
+  background-color: var(--cor-secundaria);
+  transform: translateY(-2px);
+}
+
+/* Resultados */
+.resultados {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.resultados > div {
+  background: var(--cor-primaria);
+  color: var(--cor-branco);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Cadastro */
+.cadastro-area {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-destaque);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.cadastro-area h3 {
+  color: var(--cor-secundaria);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--cor-primaria);
+  padding-bottom: 0.5rem;
+}
+
+.cadastro-area input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--cor-destaque);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cadastro-area input:focus {
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 4px var(--cor-primaria);
+}
+
+.btn-primario {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  border: none;
+  padding: 0.9rem 1.6rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.btn-primario:hover {
+  background-color: var(--cor-secundaria);
+  transform: translateY(-2px);
+}
+
+/* Área do acompanhante */
+.acompanhante-area {
+  background: var(--cor-destaque);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }

@@ -11,6 +11,7 @@ const pacienteRoutes = require('./rotas/paciente');
 const estagiarioRoutes = require('./rotas/estagiario');
 const consultaRoutes = require('./rotas/consulta');
 const loginRoutes = require('./rotas/login');
+const todoRoutes = require('./rotas/todo');
 
 // Usa rotas
 app.use('/paciente', pacienteRoutes);

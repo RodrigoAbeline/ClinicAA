@@ -15,10 +15,11 @@ router.get("/", (req, res) => {
   db.query(sql, (err, results) => {
     if (err) {
       console.error("Erro ao buscar tarefas:", err);
-      res.status(500).json({ error: "Erro ao buscar tarefas" });
-    } else {
-      res.json(results);
+      // Retorna array vazio em vez de objeto
+      return res.status(500).json([]);
     }
+    // Garante que sempre seja array
+    res.json(Array.isArray(results) ? results : []);
   });
 });
 
@@ -33,17 +34,17 @@ router.post("/", (req, res) => {
   db.query(sql, [descricao, data_conclusao, id_paciente, id_consulta], (err, result) => {
     if (err) {
       console.error("Erro ao inserir tarefa:", err);
-      res.status(500).json({ error: "Erro ao inserir tarefa" });
-    } else {
-      res.json({
-        id_todo: result.insertId,
-        descricao,
-        data_conclusao,
-        concluido: false,
-        id_paciente,
-        id_consulta
-      });
+      // Retorna objeto consistente mas dentro de array
+      return res.status(500).json([]);
     }
+    res.json([{
+      id_todo: result.insertId,
+      descricao,
+      data_conclusao,
+      concluido: false,
+      id_paciente,
+      id_consulta
+    }]);
   });
 });
 

@@ -4,6 +4,7 @@ import Profissional from './pages/Profissional';
 import Cadastro from './pages/Cadastro';
 import Estagiario from './pages/Estagiario';
 import Paciente from './pages/Paciente';
+import Login from './pages/Login';
 
 
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/Profissional" element={<Profissional />} />
         <Route path="/Cadastro" element={<Cadastro />} />
         <Route path="/Estagiario" element={<Estagiario />} />
+        <Route path="/Login" element={<Login />} />
       </Routes>
     </Router>
   );

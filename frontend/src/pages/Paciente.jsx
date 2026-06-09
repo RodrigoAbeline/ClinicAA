@@ -7,11 +7,30 @@ export default function Paciente() {
   const [idPaciente, setIdPaciente] = useState('');
   const [idConsulta, setIdConsulta] = useState('');
   const [tarefas, setTarefas] = useState([]);
+  const [erro, setErro] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:3001/todo')
-      .then(res => res.json())
-      .then(data => setTarefas(data));
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Erro ao buscar tarefas");
+        }
+        return res.json();
+      })
+      .then(data => {
+        // garante que seja array
+        if (Array.isArray(data)) {
+          setTarefas(data);
+        } else {
+          setTarefas([]);
+          setErro("Resposta inválida da API");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setErro("Não foi possível carregar as tarefas");
+        setTarefas([]);
+      });
   }, []);
 
   const handleAddTask = async (e) => {
@@ -23,67 +42,67 @@ export default function Paciente() {
       id_consulta: idConsulta
     };
 
-    const response = await fetch('http://localhost:3001/todo', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(novaTarefa)
-    });
+    try {
+      const response = await fetch('http://localhost:3001/todo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(novaTarefa)
+      });
 
-    const data = await response.json();
-    setTarefas([...tarefas, data]);
+      if (!response.ok) {
+        throw new Error("Erro ao inserir tarefa");
+      }
 
-    setDescricao('');
-    setDataFinal('');
-    setIdPaciente('');
-    setIdConsulta('');
+      const data = await response.json();
+      setTarefas(prev => [...prev, data]);
+
+      setDescricao('');
+      setDataFinal('');
+      setIdPaciente('');
+      setIdConsulta('');
+    } catch (err) {
+      console.error(err);
+      setErro("Não foi possível adicionar a tarefa");
+    }
   };
 
   return (
     <div className="container">
-      <div className="todo-form">
-        <h3>Criar Tarefa (To do)</h3>
-        <form onSubmit={handleAddTask}>
-          <textarea
-            placeholder="Descrição da atividade"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            required
-          />
-          <input
-            type="date"
-            value={dataFinal}
-            onChange={(e) => setDataFinal(e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            placeholder="ID do paciente"
-            value={idPaciente}
-            onChange={(e) => setIdPaciente(e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            placeholder="ID da consulta"
-            value={idConsulta}
-            onChange={(e) => setIdConsulta(e.target.value)}
-            required
-          />
-          <button type="submit">Adicionar Tarefa</button>
-        </form>
-      </div>
-
+      {/* Lista de tarefas */}
       <div className="lista-tarefas">
-        <h3>Tarefas Criadas</h3>
+        <h3>Tarefas do Paciente</h3>
+        {erro && <p style={{color: "red"}}>{erro}</p>}
         <ul>
-          {tarefas.map((t) => (
+          {Array.isArray(tarefas) && tarefas.map((t) => (
             <li key={t.id_todo}>
               <strong>{t.descricao}</strong> <br />
               Paciente: {t.nome_paciente} | Estagiário: {t.nome_estagiario} <br />
-              Prazo: {t.data_conclusao} | Concluído: {t.concluido ? 'Sim' : 'Não'}
+              Prazo: {t.data_conclusao} <br />
+              
+              <label>
+                <input
+                  type="checkbox"
+                  checked={t.concluido}
+                  readOnly
+                />
+                {t.concluido ? " Concluída" : " Pendente"}
+              </label>
             </li>
           ))}
         </ul>
+      </div>
+
+      
+      <div className="proximas-consultas">
+        <h3>Próximas Consultas</h3>
+        <div className="consulta-campo">
+          <label>Data:</label>
+          <input type="date" />
+        </div>
+        <div className="consulta-campo">
+          <label>Horário:</label>
+          <input type="time" />
+        </div>
       </div>
     </div>
   );
