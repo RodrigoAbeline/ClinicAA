@@ -7,18 +7,17 @@
   --cor-branco: #fff;
 }
 
-/* Reset básico */
+/* Reset */
 body {
+  margin: 0;
   font-family: "Segoe UI", Roboto, sans-serif;
   background-color: var(--cor-fundo);
   color: var(--cor-texto);
-  margin: 0;
-  padding: 0;
 }
 
 /* Container principal */
-.container {
-  max-width: 1000px;
+.container-estagiario {
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
   background: var(--cor-branco);
@@ -26,61 +25,15 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Área de pesquisa */
-.areapes {
-  margin-bottom: 2rem;
-  text-align: center;
+.conteudo-centro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-.pesquisa {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid var(--cor-destaque);
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.pesquisa:focus {
-  border-color: var(--cor-primaria);
-  box-shadow: 0 0 4px var(--cor-primaria);
-}
-
-.areapes button {
-  background-color: var(--cor-primaria);
-  color: var(--cor-branco);
-  border: none;
-  padding: 0.8rem 1.4rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.areapes button:hover {
-  background-color: var(--cor-secundaria);
-  transform: translateY(-2px);
-}
-
-/* Resultados */
-.resultados {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.resultados > div {
-  background: var(--cor-primaria);
-  color: var(--cor-branco);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-/* Cadastro */
-.cadastro-area {
+/* Área To-do */
+.todo-area {
+  flex: 1 1 60%;
   background: var(--cor-branco);
   border: 1px solid var(--cor-destaque);
   border-radius: 10px;
@@ -88,29 +41,102 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.cadastro-area h3 {
+.form-estagiario h3,
+.lista-tarefas h3,
+.relatorio h3 {
   color: var(--cor-secundaria);
   margin-bottom: 1rem;
   border-bottom: 2px solid var(--cor-primaria);
   padding-bottom: 0.5rem;
 }
 
-.cadastro-area input {
+.form-estagiario form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-estagiario input,
+.form-estagiario textarea {
   width: 100%;
   padding: 0.7rem;
-  margin-bottom: 1rem;
   border: 1px solid var(--cor-destaque);
   border-radius: 6px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cadastro-area input:focus {
+.form-estagiario input:focus,
+.form-estagiario textarea:focus {
   border-color: var(--cor-primaria);
   box-shadow: 0 0 4px var(--cor-primaria);
 }
 
-.btn-primario {
+/* Lista de tarefas */
+.lista-tarefas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-tarefas li {
+  background: var(--cor-primaria);
+  color: var(--cor-branco);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lista-tarefas li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Relatório */
+.relatorio {
+  flex: 1 1 35%;
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-destaque);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.relatorio input,
+.relatorio textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--cor-destaque);
+  border-radius: 6px;
+  outline: none;
+}
+
+.relatorio input:focus,
+.relatorio textarea:focus {
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 4px var(--cor-primaria);
+}
+/* Checkbox Presente */
+.checkbox-presente {
+  display: flex;
+  align-items: center;   /* alinha verticalmente */
+  gap: 8px;              /* espaço entre o checkbox e o texto */
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--cor-secundaria);
+}
+
+.checkbox-presente input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--cor-primaria); /* cor do checkbox */
+  cursor: pointer;
+}
+/* Botões */
+.btn-primario,
+.btn-finalizar {
   background-color: var(--cor-primaria);
   color: var(--cor-branco);
   border: none;
@@ -123,15 +149,25 @@ body {
   width: 100%;
 }
 
-.btn-primario:hover {
+.btn-primario:hover,
+.btn-finalizar:hover {
   background-color: var(--cor-secundaria);
   transform: translateY(-2px);
 }
 
-/* Área do acompanhante */
-.acompanhante-area {
-  background: var(--cor-destaque);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+.btn-finalizar:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .conteudo-centro {
+    flex-direction: column;
+  }
+
+  .todo-area,
+  .relatorio {
+    width: 100%;
+  }
 }
