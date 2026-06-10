@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
   });
 });
 
-// POST login (autenticar usuário)
 router.post("/", (req, res) => {
   const { login_usuario, senha_usuario } = req.body;
 
@@ -22,7 +21,7 @@ router.post("/", (req, res) => {
   db.query(sql, [login_usuario, senha_usuario], (err, results) => {
     if (err) {
       console.error("Erro ao autenticar login:", err);
-      return res.status(500).json({ error: "Erro ao autenticar login" });
+      return res.status(500).json({ error: "Erro interno no servidor" });
     }
 
     if (results.length === 0) {
@@ -31,7 +30,7 @@ router.post("/", (req, res) => {
 
     const usuario = results[0];
 
-    // Verifica se é paciente ou estagiário
+    // Verifica se é paciente
     db.query("SELECT * FROM Paciente WHERE id_login = ?", [usuario.id_login], (err, pacienteResults) => {
       if (err) return res.status(500).json({ error: "Erro ao buscar paciente" });
 
@@ -39,6 +38,7 @@ router.post("/", (req, res) => {
         return res.json({ tipo: "paciente", dados: pacienteResults[0] });
       }
 
+      // Verifica se é estagiário
       db.query("SELECT * FROM Estagiario WHERE id_login = ?", [usuario.id_login], (err, estagiarioResults) => {
         if (err) return res.status(500).json({ error: "Erro ao buscar estagiário" });
 
@@ -46,6 +46,7 @@ router.post("/", (req, res) => {
           return res.json({ tipo: "estagiario", dados: estagiarioResults[0] });
         }
 
+        // Caso não seja paciente nem estagiário
         return res.json({ tipo: "login", dados: usuario });
       });
     });

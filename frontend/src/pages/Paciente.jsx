@@ -7,32 +7,33 @@ export default function Paciente() {
   const [erro, setErro] = useState(null);
 
   // Carregar tarefas
-  useEffect(() => {
-    fetch("http://localhost:3001/todo")
-      .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar tarefas");
-        return res.json();
-      })
-      .then(data => Array.isArray(data) ? setTarefas(data) : setTarefas([]))
-      .catch(err => {
-        console.error(err);
-        setErro("Não foi possível carregar as tarefas");
-      });
-  }, []);
+useEffect(() => {
+  fetch("http://localhost:3001/todo")
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao buscar tarefas");
+      return res.json();
+    })
+    .then(data => Array.isArray(data) ? setTarefas(data) : setTarefas([]))
+    .catch(err => {
+      console.error(err);
+      setErro("Não foi possível carregar as tarefas");
+    });
+}, []);
 
-  // Carregar consultas
-  useEffect(() => {
-    fetch("http://localhost:3001/paciente/consultas")
-      .then(res => {
-        if (!res.ok) throw new Error("Erro ao buscar consultas");
-        return res.json();
-      })
-      .then(data => Array.isArray(data) ? setConsultas(data) : setConsultas([]))
-      .catch(err => {
-        console.error(err);
-        setErro("Não foi possível carregar as consultas");
-      });
-  }, []);
+// Carregar consultas
+useEffect(() => {
+  fetch("http://localhost:3001/paciente/consultas")
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao buscar consultas");
+      return res.json();
+    })
+    .then(data => Array.isArray(data) ? setConsultas(data) : setConsultas([]))
+    .catch(err => {
+      console.error(err);
+      setErro("Não foi possível carregar as consultas");
+    });
+}, []);
+
 
   return (
     <div className="container">

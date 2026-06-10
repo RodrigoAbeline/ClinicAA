@@ -22,9 +22,12 @@ export default function Profissional() {
   const [emailEstagiario, setEmailEstagiario] = useState('');
   const [senhaEstagiario, setSenhaEstagiario] = useState('');
 
-  const handleChange = (e) => {
-    setPesquisa(e.target.value);
-  };
+  // Campos de consulta
+  const [horaConsulta, setHoraConsulta] = useState('');
+  const [diaSemana, setDiaSemana] = useState('');
+  const [dataFinal, setDataFinal] = useState('');
+
+  const handleChange = (e) => setPesquisa(e.target.value);
 
   const handlePesquisa = async () => {
     try {
@@ -39,7 +42,20 @@ export default function Profissional() {
   const handleCadastroPaciente = async (e) => {
     e.preventDefault();
 
-    const paciente = { nome, email, telefone, cpf, idade, senha: senhaPaciente };
+    const paciente = { 
+      nome, 
+      email, 
+      telefone, 
+      cpf, 
+      idade, 
+      senha: senhaPaciente,
+      consulta: {
+        hora: horaConsulta,
+        dia: diaSemana,
+        dataFinal
+      }
+    };
+
     if (idade < 18) {
       paciente.acompanhante = {
         nome: acompanhanteNome,
@@ -49,7 +65,7 @@ export default function Profissional() {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/profissional/paciente', {
+      const response = await fetch('http://localhost:3001/paciente', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(paciente)
@@ -76,6 +92,9 @@ export default function Profissional() {
     setAcompanhanteNome('');
     setAcompanhanteTelefone('');
     setAcompanhanteIdade('');
+    setHoraConsulta('');
+    setDiaSemana('');
+    setDataFinal('');
   };
 
   const handleCadastroEstagiario = async (e) => {
@@ -84,7 +103,7 @@ export default function Profissional() {
     const estagiario = { matricula, nome: nomeEstagiario, email: emailEstagiario, senha: senhaEstagiario };
 
     try {
-      const response = await fetch('http://localhost:3001/profissional/estagiario', {
+      const response = await fetch('http://localhost:3001/estagiario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(estagiario)
@@ -166,6 +185,20 @@ export default function Profissional() {
           <input type="number" placeholder="Idade" value={idade} onChange={(e) => setIdade(e.target.value)} required />
           <input type="password" placeholder="Senha" value={senhaPaciente} onChange={(e) => setSenhaPaciente(e.target.value)} required />
 
+          {/* Campos da consulta */}
+          <input type="time" value={horaConsulta} onChange={(e) => setHoraConsulta(e.target.value)} required />
+          
+          <select value={diaSemana} onChange={(e) => setDiaSemana(e.target.value)} required>
+            <option value="">Selecione o dia</option>
+            <option value="segunda">Segunda-feira</option>
+            <option value="terca">Terça-feira</option>
+            <option value="quarta">Quarta-feira</option>
+            <option value="quinta">Quinta-feira</option>
+            <option value="sexta">Sexta-feira</option>
+          </select>
+
+          <input type="date" value={dataFinal} onChange={(e) => setDataFinal(e.target.value)} required />
+
           {idade && idade < 18 && (
             <div className="acompanhante-area">
               <h4>Dados do Acompanhante</h4>
@@ -179,19 +212,41 @@ export default function Profissional() {
         </form>
       </div>
 
-      {/* Cadastro Estagiário */}
+            {/* Cadastro Estagiário */}
       <div className="cadastro-area">
         <h3>Cadastro de Estagiário</h3>
         <form onSubmit={handleCadastroEstagiario}>
-          <input type="text" placeholder="Matrícula" value={matricula} onChange={(e) => setMatricula(e.target.value)} required />
-          <input type="text" placeholder="Nome" value={nomeEstagiario} onChange={(e) => setNomeEstagiario(e.target.value)} required />
-          <input type="email" placeholder="Email" value={emailEstagiario} onChange={(e) => setEmailEstagiario(e.target.value)} required />
-          <input type="password" placeholder="Senha" value={senhaEstagiario} onChange={(e) => setSenhaEstagiario(e.target.value)} required />
+          <input 
+            type="text" 
+            placeholder="Matrícula" 
+            value={matricula} 
+            onChange={(e) => setMatricula(e.target.value)} 
+            required 
+          />
+          <input 
+            type="text" 
+            placeholder="Nome" 
+            value={nomeEstagiario} 
+            onChange={(e) => setNomeEstagiario(e.target.value)} 
+            required 
+          />
+          <input 
+            type="email" 
+            placeholder="Email" 
+            value={emailEstagiario} 
+            onChange={(e) => setEmailEstagiario(e.target.value)} 
+            required 
+          />
+          <input 
+            type="password" 
+            placeholder="Senha" 
+            value={senhaEstagiario} 
+            onChange={(e) => setSenhaEstagiario(e.target.value)} 
+            required 
+          />
           <button type="submit" className="btn-primario">Cadastrar Estagiário</button>
         </form>
       </div>
     </div>
   );
 }
-
-
