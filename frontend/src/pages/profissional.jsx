@@ -126,6 +126,37 @@ export default function Profissional() {
     setEmailEstagiario('');
     setSenhaEstagiario('');
   };
+  // Cadastro Local
+const [localNome, setLocalNome] = useState('');
+const [horarioDisponivel, setHorarioDisponivel] = useState('');
+
+const handleCadastroLocal = async (e) => {
+  e.preventDefault();
+
+  const local = { nome: localNome, horarioDisponivel };
+
+  try {
+    const response = await fetch('http://localhost:3001/local', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(local)
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(`✅ Local cadastrado com sucesso: ${data.message}`);
+    } else {
+      alert(`❌ Erro: ${data.error || 'Falha ao cadastrar local'}`);
+    }
+  } catch (error) {
+    alert(`❌ Erro inesperado: ${error.message}`);
+  }
+
+  setLocalNome('');
+  setHorarioDisponivel('');
+};
+
 
   return (
     <div className='container'>
@@ -246,6 +277,7 @@ export default function Profissional() {
           />
           <button type="submit" className="btn-primario">Cadastrar Estagiário</button>
         </form>
+        
       </div>
     </div>
   );
