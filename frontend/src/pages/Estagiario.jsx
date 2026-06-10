@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './estagiario.css';
 
 export default function Estagiario() {
+  const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [dataFinal, setDataFinal] = useState('');
   const [paciente, setPaciente] = useState('');
@@ -26,20 +27,29 @@ export default function Estagiario() {
   const handleAddTask = async (e) => {
     e.preventDefault();
 
-    const novaTarefa = { descricao, dataFinal, paciente, estagiario };
+    const novaTarefa = { titulo, descricao, dataFinal, paciente, estagiario };
 
-    const response = await fetch('http://localhost:3001/todo', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(novaTarefa)
-    });
+    try {
+      const response = await fetch('http://localhost:3001/todo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(novaTarefa)
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    
-    setTarefas(prev => Array.isArray(data) ? [...prev, ...data] : [...prev, data]);
+      if (response.ok) {
+        alert(`✅ Sucesso: Tarefa criada para ${paciente} com estagiário ${estagiario}`);
+        setTarefas(prev => [...prev, data]);
+      } else {
+        alert(`❌ Erro: ${data.error || 'Falha ao criar tarefa'}`);
+      }
+    } catch (error) {
+      alert(`❌ Erro inesperado: ${error.message}`);
+    }
 
     // Limpa os campos
+    setTitulo('');
     setDescricao('');
     setDataFinal('');
     setPaciente('');
@@ -61,10 +71,39 @@ export default function Estagiario() {
           <div className="form-estagiario">
             <h3>Criar Tarefa (To do)</h3>
             <form onSubmit={handleAddTask}>
-              <textarea placeholder="Descrição da atividade" value={descricao} onChange={(e) => setDescricao(e.target.value)} required />
-              <input type="date" value={dataFinal} onChange={(e) => setDataFinal(e.target.value)} required />
-              <input type="text" placeholder="Nome do paciente" value={paciente} onChange={(e) => setPaciente(e.target.value)} required />
-              <input type="text" placeholder="Nome do estagiário" value={estagiario} onChange={(e) => setEstagiario(e.target.value)} required />
+              <input 
+                type="text" 
+                placeholder="Título da tarefa" 
+                value={titulo} 
+                onChange={(e) => setTitulo(e.target.value)} 
+                required 
+              />
+              <textarea 
+                placeholder="Descrição da atividade" 
+                value={descricao} 
+                onChange={(e) => setDescricao(e.target.value)} 
+                required 
+              />
+              <input 
+                type="date" 
+                value={dataFinal} 
+                onChange={(e) => setDataFinal(e.target.value)} 
+                required 
+              />
+              <input 
+                type="text" 
+                placeholder="Nome do paciente" 
+                value={paciente} 
+                onChange={(e) => setPaciente(e.target.value)} 
+                required 
+              />
+              <input 
+                type="text" 
+                placeholder="Nome do estagiário" 
+                value={estagiario} 
+                onChange={(e) => setEstagiario(e.target.value)} 
+                required 
+              />
               <button type="submit" className="btn-primario">Adicionar Tarefa</button>
             </form>
           </div>
@@ -74,7 +113,8 @@ export default function Estagiario() {
             <ul>
               {tarefas.map((t) => (
                 <li key={t.id_todo}>
-                  <strong>{t.descricao}</strong> <br />
+                  <strong>{t.titulo}</strong> <br />
+                  {t.descricao} <br />
                   Paciente: {t.nome_paciente} | Estagiário: {t.nome_estagiario} <br />
                   Prazo: {t.data_conclusao} <br />
                   <label>
@@ -87,11 +127,10 @@ export default function Estagiario() {
           </div>
         </div>
 
-       
+        {/* Relatório */}
         <div className="relatorio">
           <h3>Relatório</h3>
 
-          
           <input 
             type="text" 
             placeholder="Nome do Paciente" 
@@ -99,7 +138,6 @@ export default function Estagiario() {
             onChange={(e) => setNomePaciente(e.target.value)} 
           />
 
-          
           <label className="checkbox-presente">
             <input 
               type="checkbox" 

@@ -3,6 +3,7 @@ import './profissional.css';
 
 export default function Profissional() {
   const [pesquisa, setPesquisa] = useState('');
+  const [resultados, setResultados] = useState([]);
 
   // Cadastro Paciente
   const [nome, setNome] = useState('');
@@ -23,7 +24,16 @@ export default function Profissional() {
 
   const handleChange = (e) => {
     setPesquisa(e.target.value);
-    console.log('Pesquisando:', e.target.value);
+  };
+
+  const handlePesquisa = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/profissional/pesquisa?termo=${pesquisa}`);
+      const data = await response.json();
+      setResultados(data);
+    } catch (error) {
+      alert(`❌ Erro na pesquisa: ${error.message}`);
+    }
   };
 
   const handleCadastroPaciente = async (e) => {
@@ -38,14 +48,23 @@ export default function Profissional() {
       };
     }
 
-    const response = await fetch('http://localhost:3001/paciente', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(paciente)
-    });
+    try {
+      const response = await fetch('http://localhost:3001/profissional/paciente', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(paciente)
+      });
 
-    const data = await response.json();
-    alert(data.message);
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`✅ Sucesso: ${data.message}`);
+      } else {
+        alert(`❌ Erro: ${data.error || 'Falha ao cadastrar paciente'}`);
+      }
+    } catch (error) {
+      alert(`❌ Erro inesperado: ${error.message}`);
+    }
 
     // Limpa os campos
     setNome('');
@@ -64,14 +83,23 @@ export default function Profissional() {
 
     const estagiario = { matricula, nome: nomeEstagiario, email: emailEstagiario, senha: senhaEstagiario };
 
-    const response = await fetch('http://localhost:3001/estagiario', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(estagiario)
-    });
+    try {
+      const response = await fetch('http://localhost:3001/profissional/estagiario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(estagiario)
+      });
 
-    const data = await response.json();
-    alert(data.message);
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`✅ Sucesso: ${data.message}`);
+      } else {
+        alert(`❌ Erro: ${data.error || 'Falha ao cadastrar estagiário'}`);
+      }
+    } catch (error) {
+      alert(`❌ Erro inesperado: ${error.message}`);
+    }
 
     // Limpa os campos
     setMatricula('');
@@ -95,23 +123,36 @@ export default function Profissional() {
           <strong>Pesquise</strong><br />
           O nome do paciente, estagiário ou consulta para ver os detalhes
         </p>
-        <button>Pesquisar</button>
+        <button onClick={handlePesquisa}>Pesquisar</button>
       </div>
 
       {/* Resultados */}
       <div className='resultados'>
-        <div className="mostrarestagio">
-          <p>Estagiário</p><br />
-          <div>Resultado da pesquisa de estagiário</div>
-        </div>
-        <div className="mostrarpaciente">
-          <p>Paciente</p><br />
-          <div>Resultado da pesquisa de paciente</div>
-        </div>
-        <div className="mostrarconsultas">
-          <p>Consultas</p><br />
-          <div>Resultado da pesquisa de consulta</div>
-        </div>
+        {resultados.map((item) => (
+          <div key={item.tipo + item.id} className="resultado-item">
+            {item.tipo === 'paciente' && (
+              <>
+                <p><strong>PACIENTE</strong></p>
+                <p>Nome: {item.nome}</p>
+                <p>Telefone: {item.contato}</p>
+              </>
+            )}
+            {item.tipo === 'estagiario' && (
+              <>
+                <p><strong>ESTAGIÁRIO</strong></p>
+                <p>Nome: {item.nome}</p>
+                <p>Matrícula: {item.contato}</p>
+              </>
+            )}
+            {item.tipo === 'consulta' && (
+              <>
+                <p><strong>CONSULTA</strong></p>
+                <p>Descrição: {item.nome}</p>
+                <p>Diagnóstico: {item.contato}</p>
+              </>
+            )}
+          </div>
+        ))}
       </div>
 
       {/* Cadastro Paciente */}
@@ -152,4 +193,5 @@ export default function Profissional() {
     </div>
   );
 }
+
 

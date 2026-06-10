@@ -5,9 +5,27 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    alert(`Login realizado com:\nEmail: ${email}\nSenha: ${senha}`);
+
+    try {
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login_usuario: email, senha_usuario: senha })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`✅ Login realizado com sucesso!\nTipo: ${data.tipo}\nNome: ${data.dados.nome_paciente || data.dados.nome_estagiario || email}`);
+      } else {
+        alert(`❌ Erro: ${data.error}`);
+      }
+    } catch (error) {
+      alert(`❌ Erro inesperado: ${error.message}`);
+    }
+
     setEmail("");
     setSenha("");
   };
@@ -42,3 +60,4 @@ export default function Login() {
     </div>
   );
 }
+
